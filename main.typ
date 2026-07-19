@@ -7,9 +7,8 @@
 #state("ex_show_ans").update(false)
 #state("btrl_show_ans").update(false)
 
-#dotlinefull("vd", socot: 2)
-
-#dotlinefull("bt", socot: 2)
+#dotlinefull("vd", socot: 1)
+#dotlinefull("bt", socot: 1)
 
 // Mục lục
 #outline(depth: 3)

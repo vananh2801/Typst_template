@@ -273,14 +273,14 @@
     + $x + 0y = -2$.
   ]
   #loigiai()[
-    #dotlineEX(25, socot: 2)
+    #dotlineEX(25)
   ]
 ]
 
 #bt()[
   Trong hai cặp số $(0;-2)$ và $(2;-1)$, cặp số nào là nghiệm của hệ phương trình $heva(x-2y=4, 4x+3y=5?)$
   #loigiai()[
-    #dotlineEX(8, socot: 2)
+    #dotlineEX(10)
   ]
 ]
 
@@ -302,7 +302,7 @@
   $ heva(x+y=17, 10x+3y=100.) $
   Trong hai cặp số $(10; 7)$ và $(7; 10)$, cặp số nào là nghiệm của hệ phương trình trên? Từ đó cho biết một phương án về số cam và số quýt thoả mãn yêu cầu của bài toán cổ.
   #loigiai()[
-    #dotlineEX(5, socot: 2)
+    #dotlineEX(5)
   ]
 ]
 

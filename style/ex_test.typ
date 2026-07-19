@@ -131,14 +131,14 @@
     },
     // Inset để nội dung không dính sát vào đường kẻ dọc
     inset: (x, y) => (
-      top: par.spacing / 2.1,
-      bottom: par.spacing / 2.1,
+      top: text.size / 2,
+      bottom: text.size / 2,
       left: if x == 0 { 0pt } else { 10pt },
       right: if x == socot - 1 { 0pt } else { 10pt },
     ),
     // Nội dung các dòng kẻ chấm
     ..for _ in range(sodong * socot) {
-      (box(width: 100%, repeat([. #h(4pt)])),)
+      (box(width: 100%, repeat([. #h(5pt)])),)
     }
   )
   #label("dotline-marker")
@@ -846,10 +846,10 @@
       if theorem_cout != 0 {
         result = [#numbering("1.a", theorem_cout, chc_count)]
       } else {
-        resdult = [#numbering("a", chc_count)]
+        result = [#numbering("a", chc_count)]
       }
     }
-    result
+    [#result]
     current_chc_short_label.update([#current_chc_label.get() #result.])
   }
   // tạo nguồn
@@ -934,7 +934,7 @@
         parbreak()
       } else {
         let src = if tieude != none { [ (#tieude)] }
-        [#theoremLabel #if havingCounter { [#count] }#src.]
+        [#theoremLabel#if havingCounter { [ #count] }#src.]
       }
     }
     let short_label = context {

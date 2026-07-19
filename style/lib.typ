@@ -4,11 +4,8 @@
   // Cấu hình trang in
   set page(
     paper: "a4",
-    margin: (top: 2cm, left: 2cm, right: 2cm, bottom: 2cm),
+    margin: (top: 1.5cm, left: 2cm, right: 1.5cm, bottom: 1.5cm),
     numbering: "1",
-  )
-
-  set page(
     footer: context {
       let page_num = counter(page).get().first()
       let headings = query(heading.where(level: if calc.even(page_num) { 1 } else { 2 }).before(here())).filter(it => (
@@ -25,8 +22,8 @@
         _#current #h(1fr) Trang #(page_num)_
       ]
     },
-    header-ascent: 50%,
-    footer-descent: 50%,
+    header-ascent: 20%,
+    footer-descent: 20%,
   )
 
   // Cấu hình font chữ
@@ -41,7 +38,7 @@
   set par(
     first-line-indent: 0cm,
     leading: 0.85em,
-    spacing: 1.2em,
+    spacing: 1.5em,
     justify: true,
     linebreaks: auto,
   )
