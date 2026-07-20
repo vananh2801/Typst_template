@@ -45,27 +45,27 @@
 #let current_theorem_label = state("current_theorem_label", none)
 #let current_theorem_full_label = state("current_theorem_full_label", none)
 #let current_theorem_short_label = state("current_theorem_short_label", none)
-#let current_theorem_subtitle = state("current_theorem_subtitle", none)
+#let current_theorem_title = state("current_theorem_title", none)
 #let current_theorem_dapan = state("current_theorem_dapan", none)
 #let current_theorem_sochc = counter("current_theorem_sochc")
-#let current_theorem_boxFunc = state("current_theorem_boxFunc", (f: body => body))
+#let current_theorem_boxF = state("current_theorem_boxF", (f: body => body))
 
-#let defaultContentFunc(body, fulllabel: none, shortlabel: none, label: none, subtitle: none, count: none) = [
+#let defaultContentF(body, fulllabel: none, shortlabel: none, label: none, title: none, count: none) = [
   #strong[#fulllabel]
   #body
 ]
-#let current_theorem_contentFunc = state("current_theorem_contentFunc", (f: defaultContentFunc))
+#let current_theorem_contentF = state("current_theorem_contentF", (f: defaultContentF))
 
-#let defaultImminiFunc(fulllabel: none, shortlabel: none, label: none, subtitle: none, count: none) = [
+#let defaultImminiF(fulllabel: none, shortlabel: none, label: none, title: none, count: none) = [
   #strong[#fulllabel]
 ]
-#let current_theorem_imminiFunc = state("current_theorem_imminiFunc", (f: defaultImminiFunc))
+#let current_theorem_imminiF = state("current_theorem_imminiF", (f: defaultImminiF))
 
 // Câu hỏi con
 #let current_chc_label = state("current_chc_label", none)
 #let current_chc_full_label = state("current_chc_full_label", none)
 #let current_chc_short_label = state("current_chc_short_label", none)
-#let current_chc_subtitle = state("current_chc_subtitle", none)
+#let current_chc_title = state("current_chc_title", none)
 
 // Tiêu đề lời giải
 #let loigiaiEX = state("loigiaiEX", [*Lời giải.*])
@@ -112,9 +112,9 @@
 }
 
 // Các lệnh dotline
-#let dotlinefull(theoremname, socot: 1) = {
-  state(theoremname + "_show_ans_dotline").update(true)
-  state(theoremname + "_show_ans_dotline_colnum").update(socot)
+#let dotlinefull(name, socot: 1) = {
+  state(name + "_show_ans_dotline").update(true)
+  state(name + "_show_ans_dotline_colnum").update(socot)
 }
 
 #let dotlineEX(
@@ -422,7 +422,7 @@
 }
 
 // Lệnh xuất đáp án
-#let XuatDapAn(name, socot: 6, duongthang: 1pt + black, botron: 0.6em, khoangcach: 0.6em, nenmau: white) = context {
+#let XuatDapAn(name, socot: 6, duongthang: 1pt + black, botron: 0.6em, khoangcach: 0.6em, maunen: white) = context {
   let raw = query(<dapan-marker>).map(m => m.value).filter(v => v.name == name)
   if raw.len() == 0 { return }
   let parsed = raw.map(item => (cau: item.label, dapan: item.ans))
@@ -462,7 +462,7 @@
         ..row.map(item => [
           #box(
             width: 100% - inset,
-            fill: nenmau,
+            fill: maunen,
             inset: 0.6em,
             stroke: duongthang,
             radius: botron,
@@ -602,7 +602,7 @@
 // Gắn label <immini-marker> vào grid để nhận diện sau này
 #let immini(text_content, image_content) = {
   let cell1 = context {
-    let titleStyle = current_theorem_imminiFunc.get().f
+    let titleStyle = current_theorem_imminiF.get().f
     let fulllabel = if in_chc_state.get() {
       current_chc_full_label.get()
     } else {
@@ -623,10 +623,10 @@
     } else {
       counter(current_theorem_name.get() + "_count").get().first()
     }
-    let subtitle = if in_chc_state.get() {
-      current_chc_subtitle.get()
+    let title = if in_chc_state.get() {
+      current_chc_title.get()
     } else {
-      current_theorem_subtitle.get()
+      current_theorem_title.get()
     }
     let prefix = if type(titleStyle) == function {
       titleStyle(
@@ -634,7 +634,7 @@
         shortlabel: shortlabel,
         label: label,
         count: count,
-        subtitle: subtitle,
+        title: title,
       )
     }
     if not immini_at_start_state.get() or (in_theorem_state.get() and current_theorem_sochc.get().first() > 0) {
@@ -656,7 +656,7 @@
 // Gắn label <immini-marker> vào grid để nhận diện sau này
 #let imminiL(text_content, image_content) = {
   let cell2 = context {
-    let titleStyle = current_theorem_imminiFunc.get().f
+    let titleStyle = current_theorem_imminiF.get().f
     let fulllabel = if in_chc_state.get() {
       current_chc_full_label.get()
     } else {
@@ -677,10 +677,10 @@
     } else {
       counter(current_theorem_name.get() + "_count").get().first()
     }
-    let subtitle = if in_chc_state.get() {
-      current_chc_subtitle.get()
+    let title = if in_chc_state.get() {
+      current_chc_title.get()
     } else {
-      current_theorem_subtitle.get()
+      current_theorem_title.get()
     }
     let prefix = if type(titleStyle) == function {
       titleStyle(
@@ -688,7 +688,7 @@
         shortlabel: shortlabel,
         label: label,
         count: count,
-        subtitle: subtitle,
+        title: title,
       )
     }
     if not immini_at_start_state.get() or (in_theorem_state.get() and current_theorem_sochc.get().first() > 0) {
@@ -815,22 +815,22 @@
   let full_label = context { [#current_chc_label.get() #count#src.] }
   let short_label = context { [#current_chc_label.get() #count.] }
   current_chc_full_label.update(full_label)
-  current_chc_subtitle.update(tieude)
+  current_chc_title.update(tieude)
   // Cập nhật cờ immini
   immini_at_start_state.update(starts-with-immini(body))
   // Xuất nội dung
   context {
-    let boxFunc = current_theorem_boxFunc.get().f
-    let contentFunc = current_theorem_contentFunc.get().f
-    if type(boxFunc) == function and type(contentFunc) != none {
-      boxFunc()[
-        #contentFunc(
+    let boxF = current_theorem_boxF.get().f
+    let contentF = current_theorem_contentF.get().f
+    if type(boxF) == function and type(contentF) != none {
+      boxF()[
+        #contentF(
           body,
           fulllabel: if not starts-with-immini(body) { full_label },
           shortlabel: if not starts-with-immini(body) { short_label },
           label: current_chc_label.get(),
           count: count,
-          subtitle: tieude,
+          title: tieude,
         )
       ]
     }
@@ -848,10 +848,10 @@
 #let createTheoremEx(
   theoremName,
   theoremLabel,
-  boxFunc: body => body,
-  contentFunc: defaultContentFunc,
-  imminiFunc: defaultImminiFunc,
-  havingCounter: true,
+  boxF: body => body,
+  contentF: defaultContentF,
+  imminiF: defaultImminiF,
+  numbered: true,
 ) = {
   // Khai báo theorem
   let theorem = (body, tieude: none, sochc: 0) => {
@@ -862,7 +862,7 @@
     // Tự xuống dòng ở đầu theorem
     parbreak()
     // Tăng bộ đếm
-    if havingCounter {
+    if numbered {
       counter(theoremName + "_count").step()
     }
     // Trả bộ đếm chc về như cũ
@@ -872,14 +872,14 @@
     // Gán cờ đang trong theorem thành true
     in_theorem_state.update(true)
     // Lưu cáu hình hiện tại để các #chc bên trong tự động kế thừa (đồng bộ font)
-    current_theorem_boxFunc.update((f: boxFunc))
-    current_theorem_contentFunc.update((f: contentFunc))
-    current_theorem_imminiFunc.update((f: imminiFunc))
+    current_theorem_boxF.update((f: boxF))
+    current_theorem_contentF.update((f: contentF))
+    current_theorem_imminiF.update((f: imminiF))
     // Tạo count
     let count = context {
       let result = [#counter(theoremName + "_count").get().first()]
       result
-      current_theorem_short_label.update([#theoremLabel #if havingCounter { result }.])
+      current_theorem_short_label.update([#theoremLabel #if numbered { result }.])
     }
     // Tạo label + Lưu label để có thể xử lý
     let full_label = context {
@@ -891,7 +891,7 @@
         parbreak()
       } else {
         let src = if tieude != none { [ (#tieude)] }
-        [#theoremLabel#if havingCounter { [ #count] }#src.]
+        [#theoremLabel#if numbered { [ #count] }#src.]
       }
     }
     let short_label = context {
@@ -902,25 +902,25 @@
         [#fromchc.get() #str(start_counter) #tochc.get() #str(end_counter).]
         parbreak()
       } else {
-        [#theoremLabel #if havingCounter { [#count] }.]
+        [#theoremLabel #if numbered { [#count] }.]
       }
     }
     current_theorem_label.update(theoremLabel)
     current_theorem_full_label.update(full_label)
-    current_theorem_subtitle.update(tieude)
+    current_theorem_title.update(tieude)
     current_chc_label.update(theoremLabel)
     current_theorem_name.update(theoremName)
     immini_at_start_state.update(starts-with-immini(body))
     // Xuất nội dung
-    if type(boxFunc) == function and type(contentFunc) == function {
-      boxFunc()[
-        #contentFunc(
+    if type(boxF) == function and type(contentF) == function {
+      boxF()[
+        #contentF(
           body,
           fulllabel: if not starts-with-immini(body) { full_label },
           shortlabel: if not starts-with-immini(body) { short_label },
           label: theoremLabel,
           count: count,
-          subtitle: tieude,
+          title: tieude,
         )
       ]
     }

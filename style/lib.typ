@@ -339,22 +339,22 @@
   )[#body]
 }
 
-#let question_ImminiFunc(fulllabel: none, shortlabel: none, label: none, subtitle: none, count: none) = [
+#let questionImminiF(fulllabel: none, shortlabel: none, label: none, title: none, count: none) = [
   #strong[#shortlabel]
 ]
 
-#let question_ContentFunc(body, fulllabel: none, shortlabel: none, label: none, subtitle: none, count: none) = [
+#let questionContentF(body, fulllabel: none, shortlabel: none, label: none, title: none, count: none) = [
   // In đậm Tiêu đề
   #strong[#shortlabel]
   // Xuất nội dung
   #body
   // Xuất nguồn đề bài in nghiêng
-  #if subtitle != none {
-    [#parbreak()#h(1fr)#emph[Nguồn: #subtitle]]
+  #if title != none {
+    [#parbreak()#h(1fr)#emph[Nguồn: #title]]
   }
 ]
 
-#let dlContentFunc(body, fulllabel: none, shortlabel: none, label: none, subtitle: none, count: none) = [
+#let dlcontentF(body, fulllabel: none, shortlabel: none, label: none, title: none, count: none) = [
   // In đậm Tiêu đề
   #strong[#fulllabel]
   // In nghiêng nội dung
@@ -366,52 +366,52 @@
 #let dn = createTheoremEx(
   "dn",
   "Định nghĩa",
-  boxFunc: dnBox,
+  boxF: dnBox,
 )
 #let dl = createTheoremEx(
   "dl",
   "Định lý",
-  boxFunc: dlBox,
-  contentFunc: dlContentFunc,
+  boxF: dlBox,
+  contentF: dlcontentF,
 )
 #let tc = createTheoremEx(
   "tc",
   "Tính chất",
-  boxFunc: tcBox,
+  boxF: tcBox,
 )
 #let luuy = createTheoremEx(
   "luuy",
   "Lưu ý",
-  havingCounter: false,
+  numbered: false,
 )
 #let nhanxet = createTheoremEx(
   "nhanxet",
   "Nhận xét",
-  havingCounter: false,
+  numbered: false,
 )
 #let vd = createTheoremEx(
   "vd",
   "Ví dụ",
-  boxFunc: vdBox,
-  contentFunc: question_ContentFunc,
-  imminiFunc: question_ImminiFunc,
+  boxF: vdBox,
+  contentF: questionContentF,
+  imminiF: questionImminiF,
 )
 #let btrl = createTheoremEx(
   "btrl",
   "Bài",
-  contentFunc: question_ContentFunc,
-  imminiFunc: question_ImminiFunc,
+  contentF: questionContentF,
+  imminiF: questionImminiF,
 )
 #let ex = createTheoremEx(
   "ex",
   "Câu",
-  contentFunc: question_ContentFunc,
-  imminiFunc: question_ImminiFunc,
+  contentF: questionContentF,
+  imminiF: questionImminiF,
 )
 #let bt = createTheoremEx(
   "bt",
   "Bài",
-  boxFunc: btBox,
-  contentFunc: question_ContentFunc,
-  imminiFunc: question_ImminiFunc,
+  boxF: btBox,
+  contentF: questionContentF,
+  imminiF: questionImminiF,
 )
