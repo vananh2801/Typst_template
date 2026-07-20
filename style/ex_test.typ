@@ -441,7 +441,7 @@
 }
 
 // Lệnh xuất đáp án
-#let XuatDapAn(name, socot: 6, duongthang: 1pt + black, botron: 0.6em, khoangcach: 0.6em) = context {
+#let XuatDapAn(name, socot: 6, duongthang: 1pt + black, botron: 0.6em, khoangcach: 0.6em, nenmau: white) = context {
   let raw = query(<dapan-marker>).map(m => m.value).filter(v => v.name == name)
   if raw.len() == 0 { return }
   let parsed = raw.map(item => (cau: item.label, dapan: item.ans))
@@ -481,7 +481,7 @@
         ..row.map(item => [
           #box(
             width: 100% - inset,
-            fill: white,
+            fill: nenmau,
             inset: 0.6em,
             stroke: duongthang,
             radius: botron,

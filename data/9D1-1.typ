@@ -600,4 +600,4 @@
   *BẢNG ĐÁP ÁN TRẮC NGHIỆM*
 ]
 
-#XuatDapAn("9D1-1-Tracnghiem", socot: 6)
+#XuatDapAn("9D1-1-Tracnghiem", socot: 6, duongthang: 1pt + blue, nenmau: blue.lighten(95%))
