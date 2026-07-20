@@ -399,25 +399,6 @@
 
 // dapso để hiện đáp số vắn tắt cho bài tự luận
 #let dapso(dapan, hien: none) = {
-  // Lưu đáp án
-  current_theorem_dapan.update(none)
-  if dapan != none {
-    context {
-      let active = current_saved_data_name.get()
-      if active != "" {
-        let lb = if in_chc_state.get() {
-          current_chc_short_label.get()
-        } else if in_theorem_state.get() {
-          current_theorem_short_label.get()
-        } else {
-          none
-        }
-        if lb != none {
-          [#metadata((name: active, label: lb, ans: dapan)) <dapan-marker>]
-        }
-      }
-    }
-  }
   // Xuất nội dung
   parbreak()
   context {
