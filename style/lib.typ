@@ -147,7 +147,6 @@
     counter("ex_count").update(0)
   }
 
-  // testing
   // subsection - Mục đánh chữ cái in hoa
   show heading.where(level: 3): it => context {
     block(
@@ -158,24 +157,12 @@
       #let dynamic_width = calc.max(20pt, measure(count).width + 10pt)
       #set text(size: 14pt, weight: "bold")
       #set par(justify: true)
-      #grid(
-        align: top,
-        columns: (auto, auto),
-        gutter: 5pt,
-        [#rect(fill: green.lighten(70%), inset: 5pt, radius: 5pt, height: 20pt, width: dynamic_width)[
-            #align(center + horizon)[
-              #count
-            ]
-          ]
-        ],
-        [#rect(fill: black.lighten(100%), inset: 5pt, radius: 5pt)[
-          #it.body
-        ]],
-      )
+      #box(fill: green.lighten(70%), inset: 5pt, radius: 5pt, height: 20pt, width: dynamic_width)[#h(1fr)#count#h(1fr)]
+      #h(0.4em)
+      #it.body
     ]
   }
 
-  // testing
   // subsubsection - Mục nhỏ đánh số Ả Rập
   show heading.where(level: 4): it => context {
     block(
@@ -184,21 +171,11 @@
     )[
       #set text(size: 13pt, weight: "bold")
       #let count = numbering("1", counter(heading).get().last())
-      #let dynamic_height = calc.max(measure(count).height + text.size)
+      #let dynamic_width = calc.max(20pt, measure(count).width + 10pt)
       #set par(justify: true)
-      #grid(
-        align: top,
-        columns: (auto, auto),
-        gutter: 5pt,
-        [#circle(fill: green.lighten(70%), height: dynamic_height, stroke: none)[
-          #align(center + horizon)[
-            #count
-          ]
-        ]],
-        [#rect(fill: black.lighten(100%), inset: dynamic_height - text.size - 3pt)[
-          #it.body // inset chỉ tương đối đúng, thay đổi tuỳ size chữ
-        ]],
-      )
+      #box(fill: green.lighten(70%), inset: 5pt, radius: 5pt, height: 20pt, width: dynamic_width)[#h(1fr)#count#h(1fr)]
+      #h(0.4em)
+      #it.body
     ]
   }
 
