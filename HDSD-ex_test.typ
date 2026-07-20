@@ -36,16 +36,15 @@
   #v(1fr)
   #text(style: "italic", size: 12pt)[
     Tài liệu dùng cho mã nguồn `ex_test.typ`.\
-    Phiên bản gói: #ex_test_version — Tác giả: Phan Văn Anh\
-    Github: `https://github.com/vananh2801`
+    Phiên bản gói: #ex_test_version — Tác giả: #ex_test_author\
+    Github: #ex_test_github
   ]
   #v(2fr)
 ]
 
 #heading("Lời cảm ơn", depth: 1, numbering: none)
 
-Cảm ơn thầy Trần Anh Tuấn và thầy Dương Phước Sang vì đã tạo ra gói ex_test rất tuyệt vời, giúp việc gõ LaTeX gần gủi hơn cho GV dạy học.\
-Dựa trên cơ sở ý tưởng của ex_test, tôi đã làm gói lệnh này, phục vụ cho việc gõ Typst trong dạy học.
+#ex_test_loicamon
 
 #outline(depth: 2)
 

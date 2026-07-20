@@ -20,11 +20,12 @@
 // SOFTWARE.
 
 #let ex_test_version = "1.0.0"
-#let author = "vananh2801"
-#let loicamon = "
-  Cảm ơn thầy Trần Anh Tuấn và thầy Dương Phước Sang vì đã tạo ra gói ex_test rất tuyệt vời, giúp việc gõ LaTeX gần gủi hơn cho GV dạy học.
-  Dựa trên cơ sở ý tưởng của ex_test, tôi đã làm gói lệnh này, phục vụ cho việc gõ Typst trong dạy học.
+#let ex_test_author = "Phan Văn Anh"
+#let ex_test_loicamon = "
+Tôi chân thành cảm ơn thầy Trần Anh Tuấn và thầy Dương Phước Sang vì đã tạo ra gói ex_test rất tuyệt vời, giúp việc gõ LaTeX trở nên gần gủi hơn cho GV trong dạy học.
+Dựa trên cơ sở ý tưởng của ex_test, tôi đã làm gói lệnh này, phục vụ cho việc gõ Typst trong dạy học.
 "
+#let ex_test_github = "https://github.com/vananh2801"
 
 // state lưu lời giải đang chờ hiển thị
 #let loigiai_state = state("loigiai_state", none)
