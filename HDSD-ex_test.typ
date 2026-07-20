@@ -779,11 +779,11 @@ Sử dụng tham số `kieu` để thay đổi kiểu in kết quả:
     `#exitdapso`) để ẩn.
 - Tham số `hien:` truyền trực tiếp trong `#dapso(...)` luôn được ưu tiên xử lý hơn cấu hình chung bằng các cách trên.
 
-#section[`listEX` `#itemize` `#enumerate`  -- tạo danh sách]
+#section[`#listEX` `#itemize` `#enumerate`  -- tạo danh sách]
 
-#subsection[`listEX` -- tự động sắp xếp]
+#subsection[`#listEX` -- tự động sắp xếp]
 
-Lệnh `listEX` dùng để lập danh sách thay cho `enum`, trong đó các ý của bài tập sẽ tự động dàn cột tương tự bên LaTeX (tối đa 4 cột). Nếu muốn chỉ định số cột cụ thể thì ta thêm tham số `socot`. Cú pháp lệnh đầy đủ như sau:
+Lệnh `#listEX` dùng để lập danh sách thay cho `enum`, trong đó các ý của bài tập sẽ tự động dàn cột tương tự bên LaTeX (tối đa 4 cột). Nếu muốn chỉ định số cột cụ thể thì ta thêm tham số `socot`. Cú pháp lệnh đầy đủ như sau:
 
 ```typ
 #listEX(socot: <số cột>)[
