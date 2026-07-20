@@ -226,9 +226,17 @@
     set text(features: ("tnum",))
     if it.level == 1 {
       link(it.element.location(), [
-        #block(width: 100%, above: 1.5em, below: 1em)[
-          *Chương* #strong(it.prefix())*.* #h(0.4em) #upper(strong(it.inner()))
-        ]
+        #if it.prefix() != none and it.prefix() != "" {
+          // Trường hợp có số chương (VD: I, II, 1, 2)
+          block(width: 100%, above: 1.5em, below: 1em)[
+            *Chương* #strong(it.prefix())*.* #h(0.4em) #upper(strong(it.inner()))
+          ]
+        } else {
+          // Trường hợp không có số chương (VD: LỜI CẢM ƠN)
+          block(width: 100%, above: 1.5em, below: 1em)[
+            #upper(strong(it.inner()))
+          ]
+        }
       ])
     } else if it.level == 2 {
       link(it.element.location(), [
