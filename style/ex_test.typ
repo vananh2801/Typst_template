@@ -441,79 +441,55 @@
 }
 
 // Lệnh xuất đáp án
-#let XuatDapAn(name, socot: 6, kieu: none) = context {
+#let XuatDapAn(name, socot: 6, duongthang: 1pt + black, botron: 0.6em, khoangcach: 0.6em) = context {
   let raw = query(<dapan-marker>).map(m => m.value).filter(v => v.name == name)
   if raw.len() == 0 { return }
   let parsed = raw.map(item => (cau: item.label, dapan: item.ans))
-  let inset = 0.5em
-  if kieu != none and kieu == "t" {
-    layout(size => {
-      let inset = 0.5em
-      let avail = size.width
-      let col-widths = parsed.map(p => {
-        measure([*#p.cau* #p.dapan]).width + 2 * inset
-      })
-      let chunks = ()
-      let current = ()
-      let current-w = 0pt
-      for (i, p) in parsed.enumerate() {
-        let w = col-widths.at(i).to-absolute()
-        if current.len() > 0 and current-w + w > avail {
-          chunks.push(current)
-          current = (p,)
-          current-w = w
-        } else {
-          current.push(p)
-          current-w += w
-        }
-      }
-      if current.len() > 0 { chunks.push(current) }
-      for chunk in chunks {
-        table(
-          columns: chunk.len(),
-          stroke: 0.5pt + black,
-          align: center + horizon,
-          inset: inset,
-          ..chunk.map(p => [*#p.cau* #p.dapan])
-        )
-      }
+  let inset = khoangcach
+  set par(spacing: inset)
+  layout(size => {
+    let total-cols = socot
+    let avail = size.width
+    let col-w = avail / total-cols
+    let usable-col-w = col-w - 2 * inset - 2pt // trừ 2 bên inset + stroke
+    let spans = parsed.map(p => {
+      let w = measure([*#p.cau* #p.dapan]).width
+      calc.clamp(calc.ceil(w.to-absolute() / usable-col-w.to-absolute()), 1, total-cols)
     })
-  } else {
-    layout(size => {
-      let total-cols = socot
-      let avail = size.width
-      let col-w = avail / total-cols
-      let spans = parsed.map(p => {
-        let w = measure([*#p.cau* #p.dapan]).width
-        calc.clamp(calc.ceil(w / col-w), 1, total-cols)
-      })
-      let rows = ()
-      let current-row = ()
-      let current-cols = 0
-      for (i, p) in parsed.enumerate() {
-        let span = spans.at(i)
-        let item = (p: p, span: span)
-        if current-cols + span > total-cols {
-          rows.push(current-row)
-          current-row = (item,)
-          current-cols = span
-        } else {
-          current-row.push(item)
-          current-cols += span
-        }
+    let rows = ()
+    let current-row = ()
+    let current-cols = 0
+    for (i, p) in parsed.enumerate() {
+      let span = spans.at(i)
+      let item = (p: p, span: span)
+      if current-cols + span > total-cols {
+        rows.push(current-row)
+        current-row = (item,)
+        current-cols = span
+      } else {
+        current-row.push(item)
+        current-cols += span
       }
-      if current-row.len() > 0 { rows.push(current-row) }
-      for row in rows {
-        let col-sizes = row.map(item => (col-w * item.span,)).fold((), (acc, x) => acc + x)
-        grid(
-          columns: col-sizes,
-          align: left + horizon,
-          inset: (x: 0em, y: 0em),
-          ..row.map(item => [*#item.p.cau* #item.p.dapan])
-        )
-      }
-    })
-  }
+    }
+    if current-row.len() > 0 { rows.push(current-row) }
+    for row in rows {
+      let col-sizes = row.map(item => (col-w * item.span,)).fold((), (acc, x) => acc + x)
+      grid(
+        columns: col-sizes,
+        align: left + top,
+        inset: (x: 0em, y: 0em),
+        ..row.map(item => [
+          #box(
+            width: 100% - inset,
+            fill: white,
+            inset: 0.6em,
+            stroke: duongthang,
+            radius: botron,
+          )[*#item.p.cau* #item.p.dapan]
+        ])
+      )
+    }
+  })
 }
 
 // Môi trường itemize

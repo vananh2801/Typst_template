@@ -600,6 +600,4 @@
   *BẢNG ĐÁP ÁN TRẮC NGHIỆM*
 ]
 
-#XuatDapAn("9D1-1-Tracnghiem", socot: 5) // In kiểu xếp gạch
-
-// #XuatDapAn("9D1-1-Tracnghiem", kieu: "t") // In kiểu ô chữ nhật
+#XuatDapAn("9D1-1-Tracnghiem", socot: 6)
