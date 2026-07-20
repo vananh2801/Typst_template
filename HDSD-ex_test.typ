@@ -26,6 +26,7 @@
 #state("bt_show_ans").update(true)
 #state("ex_show_ans").update(true)
 #state("btrl_show_ans").update(true)
+#state("minhhoa_show_ans").update(true)
 
 
 #align(center)[
@@ -35,7 +36,7 @@
   #text(style: "italic", size: 12pt)[
     Tài liệu dùng cho mã nguồn `ex_test.typ`.\
     Phiên bản gói: #ex_test_version — Tác giả: Phan Văn Anh\
-    Github: https://github.com/vananh2801
+    Github: `https://github.com/vananh2801`
   ]
   #v(2fr)
 ]
@@ -45,11 +46,11 @@
 Cảm ơn thầy Trần Anh Tuấn và thầy Dương Phước Sang vì đã tạo ra gói ex_test rất tuyệt vời, giúp việc gõ LaTeX gần gủi hơn cho GV dạy học.\
 Dựa trên cơ sở ý tưởng của ex_test, tôi đã làm gói lệnh này, phục vụ cho việc gõ Typst trong dạy học.
 
-#outline(depth: 3)
+#outline(depth: 2)
 
 #chapter[Giới thiệu]
 
-#section[Cấu trúc thư mục kiến nghị]
+#section[`project` -- cấu trúc thư mục kiến nghị]
 
 Dự án mẫu có cấu trúc như sau:
 
@@ -72,7 +73,7 @@ Trong đó:
 
 - File `9D1-1.typ` là ví dụ thực tế cách mà các theorem đã khai báo trong `lib.typ` được sử dụng.
 
-#section[Khởi tạo file chính `main.typ`]
+#section[`main.typ` -- khởi tạo file chính]
 
 Ở đầu các file đuôi `.typ`, thầy cô cần khai báo:
 
@@ -82,7 +83,7 @@ Trong đó:
 
 Thật ra, nếu thầy cô xem kĩ các file mẫu sẽ thấy được rằng nếu trong `lib.typ` mà đã có dòng lệnh này thì khi thầy cô chạy lệnh `#import "style/lib.typ"` ở đầu các file thì đã đi kèm `ex_test` rồi.
 
-== Các cấp tiêu đề
+#section[`heading` -- các cấp tiêu đề]
 
 Gói `ex_test.typ` định nghĩa lại các cấp tiêu đề LaTeX quen thuộc như:
 
@@ -102,8 +103,7 @@ Gói `ex_test.typ` định nghĩa lại các cấp tiêu đề LaTeX quen thuộ
   )
 ]
 
-
-Ví dụ:
+*Ví dụ minh hoạ:*
 
 ```typ
 #chapter[Phương trình bậc nhất hai ẩn]
@@ -112,32 +112,18 @@ Ví dụ:
 #subsubsection[Phương trình bậc nhất hai ẩn]
 ```
 
-Khi sang Chương mới hoặc Bài mới, các bộ đếm `vd`, `bt`, `btrl`, `ex`... sẽ KHÔNG tự động reset về 0. Tuy nhiên gói lệnh `ex_test` đã tạo sẵn các counter. Nếu thầy cô muốn reset về 0 thì thầy cô phải chèn lệnh sau vào phần cấu hình heading:
-```typ
-#counter("<tên môi trường>_count").update(0)
-```
-
-Ví dụ:
-```typ
-#counter("ex_count").update(0)
-#counter("bt_count").update(0)
-#counter("vd_count").update(0)
-```
-
-Thầy cô có thể tham khảo `show heading.where(level: 1)` trong `lib.typ`.
-
 #chapter[Tự tạo theorem]
 
-#section[`createTheoremEx` -- thêm một theorem mới]
+#section[`#createTheoremEx` -- tạo một theorem mới]
 
 #subsection[Lệnh khai báo đầy đủ]
 
-Để tạo một `theorem` mới để có thể dùng các chức năng của `ex_test`, thầy cô dùng lệnh `createTheoremEx` như sau:
+Để tạo một `theorem` mới để có thể dùng các chức năng của `ex_test`, thầy cô dùng lệnh `#createTheoremEx` như sau:
 
 ```typ
-#let <tên môi trường> = createTheoremEx(
-  "<tên môi trường>",
-  "<nhãn hiển thị của môi trường>",
+#let <tên theorem> = createTheoremEx(
+  "<tên theorem>",
+  "<nhãn hiển thị của theorem>",
   boxFunc: <tên hàm cấu hình khung>,
   contentFunc: <tên hàm cấu hình nội dung>,
   imminiFunc: <tên hàm cấu hình nhãn xuất hiện khi dùng #immini>,
@@ -171,9 +157,22 @@ Thầy cô có thể tham khảo `show heading.where(level: 1)` trong `lib.typ`.
   Đây là phần minh hoạ của cách sử dụng.
 ]
 
-#pagebreak()
+#subsection[Bộ đếm số]
+Khi sang Chương mới hoặc Bài mới, các bộ đếm `vd`, `bt`, `btrl`, `ex`... sẽ KHÔNG tự động reset về 0. Tuy nhiên gói lệnh `ex_test` đã tạo sẵn các counter. Nếu thầy cô muốn reset về 0 thì thầy cô phải chèn lệnh sau vào phần cấu hình heading:
+```typ
+#counter("<tên theorem>_count").update(0)
+```
 
-#subsection[Tạo khung]
+*Ví dụ minh hoạ:*
+```typ
+#counter("ex_count").update(0)
+#counter("bt_count").update(0)
+#counter("vd_count").update(0)
+```
+
+Thầy cô có thể tham khảo `show heading.where(level: 1)` trong `lib.typ`.
+
+#subsection[`boxFunc` -- tạo khung]
 
 Khai báo khung cho Minh hoạ:
 
@@ -221,9 +220,11 @@ Khi đó ta khai báo như sau:
   Đây là phần minh hoạ của cách sử dụng.
 ]
 
-#subsection[Thay đổi cấu trúc của nội dung bên trong]
+#subsection[`contentFunc` `imminiFunc` -- thay đổi cấu trúc của nội dung]
 
 Đôi khi ta muốn đưa nguồn bài tập xuống cạnh dưới bên phải khung thay vì in đậm ở phần nhãn, ta cần khai báo lại `imminiFunc` và `contentFunc`, chẳng hạn sau đây là khai báo cho Minh hoạ:
+
+#pagebreak()
 
 ```typ
 #let minhhoaContentFunc(body, fulllabel: none, shortlabel: none, label: none, subtitle: none, count: none) = [
@@ -239,7 +240,7 @@ Khi đó ta khai báo như sau:
 ```
 
 ```typ
-#let minhoaImminiFunc(fulllabel: none, shortlabel: none, label: none, subtitle: none, count: none) = [
+#let minhhoaImminiFunc(fulllabel: none, shortlabel: none, label: none, subtitle: none, count: none) = [
   #strong[#shortlabel]
 ]
 ```
@@ -251,7 +252,7 @@ Khi đó ta khai báo như sau:
   "Minh hoạ",
   boxFunc: minhhoaBox,
   contentFunc: minhhoaContentFunc,
-  imminiFunc: minhoaImminiFunc
+  imminiFunc: minhhoaImminiFunc
 )
 ```
 
@@ -266,7 +267,7 @@ Khi đó ta khai báo như sau:
     [#parbreak()#h(1fr)#emph[Nguồn: #subtitle]]
   }
 ]
-#let minhoaImminiFunc(fulllabel: none, shortlabel: none, label: none, subtitle: none, count: none) = [
+#let minhhoaImminiFunc(fulllabel: none, shortlabel: none, label: none, subtitle: none, count: none) = [
   #strong[#shortlabel]
 ]
 #let minhhoa = createTheoremEx(
@@ -274,27 +275,33 @@ Khi đó ta khai báo như sau:
   "Minh hoạ",
   boxFunc: minhhoaBox,
   contentFunc: minhhoaContentFunc,
-  imminiFunc: minhoaImminiFunc,
+  imminiFunc: minhhoaImminiFunc,
 )
 
 #minhhoa(tieude: "Tên minh hoạ")[
   Đây là phần minh hoạ của cách sử dụng.
 ]
 
-#v(5em)
 *Lưu ý:* Để rõ hơn thầy cô xem ở cuối file `lib.typ`.
 
 #section[`#immini` `#imminiL`  -- hình minh hoạ cho bài tập]
 
-Dùng lệnh `#immini(<đề bài>, <hình ảnh>)` để xếp đề bài bên trái, hình bên phải.
-
-Ngược lại, dùng `#imminiL` để xếp hình bên trái, đề bài bên phải.
+Dùng lệnh `#immini` để xếp đề bài bên trái, hình bên phải. Ngược lại, dùng `#imminiL` để xếp hình bên trái, đề bài bên phải.
 
 *Ví dụ minh hoạ:*
 
 ```typ
 #luuy[
   #immini[
+    Toạ độ giao điểm của hai đường thẳng chính là nghiệm của hệ phương
+    trình tương ứng.
+  ][
+    #image("../imgs/minh-hoa.png", width: 6cm)
+  ]
+]
+
+#luuy[
+  #imminiL[
     Toạ độ giao điểm của hai đường thẳng chính là nghiệm của hệ phương
     trình tương ứng.
   ][
@@ -309,7 +316,18 @@ Ngược lại, dùng `#imminiL` để xếp hình bên trái, đề bài bên p
     Toạ độ giao điểm của hai đường thẳng chính là nghiệm của hệ phương
     trình tương ứng.
   ][
-    #rect(width: 6cm, height: 3.2cm, fill: blue.lighten(85%), radius: 4pt)[
+    #rect(width: 6cm, height: 3.2cm, stroke: 1pt + black, radius: 4pt)[
+      #align(center + horizon)[_(hình minh hoạ ở đây)_]
+    ]
+  ]
+]
+
+#luuy[
+  #imminiL[
+    Toạ độ giao điểm của hai đường thẳng chính là nghiệm của hệ phương
+    trình tương ứng.
+  ][
+    #rect(width: 6cm, height: 3.2cm, stroke: 1pt + black, radius: 4pt)[
       #align(center + horizon)[_(hình minh hoạ ở đây)_]
     ]
   ]
@@ -353,6 +371,129 @@ Ngược lại, dùng `#imminiL` để xếp hình bên trái, đề bài bên p
 
 #dotlineEX(3, socot: 2)
 
+*Đổi nhãn "Lời giải.":* mặc định `#loigiai` in ra một dòng căn giữa lấy từ biến
+`loigiaiEX` (mặc định là chữ đậm "Lời giải.") trước khi in nội dung. Muốn đổi
+thành chữ khác (ví dụ "Hướng dẫn giải" hoặc để trống), đặt ở `main.typ`:
+
+```typ
+#loigiaiEX.update([*Hướng dẫn giải.*])
+```
+
+#section[`#chc` -- câu hỏi con]
+
+Đối với các dạng đề như thi Đánh giá năng lực, thường sẽ gặp trường hợp có nhiều câu hỏi dùng chung giả thiết. Khi đó ta dùng `#chc` ngay sau `theorem` chứa giả thiết chung.
+
+#subsection[Cú pháp]
+
+```typ
+#<tên theorem>(sochc: <số câu hỏi con>)[
+  Giả thiết chung (ngữ cảnh)...
+]
+
+#chc(tieude: <nguồn riêng câu này, có thể bỏ trống>)[
+  Nội dung câu hỏi con thứ nhất...
+  #loigiai[Lời giải riêng của câu này...]
+]
+
+#chc[
+  Nội dung câu hỏi con thứ hai...
+]
+```
+
+- `sochc: n` khai báo trên `theorem`: cho biết có `n` câu hỏi con bên trong. Khi đó, thay vì hiển thị "Câu 5", tiêu đề `theorem` sẽ tự đổi thành dạng *Dựa vào thông tin dưới đây để trả lời các câu từ $X$ đến $X + n$*. Trong đó, $X$ là đánh số hiện tại của `theorem`.
+
+- Nếu KHÔNG khai báo `sochc:` (hoặc để `sochc: 0`), các `#chc` bên trong sẽ tự đánh số kiểu "$X$.a", "$X$.b".... Nếu `theorem` không đánh số thì sẽ hiện "a", "b", "c"...
+
+- Mỗi `#chc[...]` có thể được sử dụng độc lập với `theorem`, copy tất cả cấu hình áp dụng cho `theorem`, có thể dùng `#loigiai[...]` riêng và `tieude:` (nguồn) riêng cho từng câu con...
+
+#pagebreak()
+
+#subsection[Ví dụ minh hoạ]
+
+```typ
+#minhhoa(sochc: 2)[
+  Cho hai đường thẳng $d_1: y = x + 1$ và $d_2: y = -x + 3$.
+]
+
+#chc[
+  Tìm giao điểm của $d_1$ và $d_2$.
+  #loigiai[
+    Giải hệ $heva(y = x + 1, y = -x + 3)$ được $x = 1$, $y = 2$.
+  ]
+]
+#chc[
+  Vẽ hai đường thẳng trên cùng một hệ trục toạ độ.
+  #loigiai[
+    Học sinh tự vẽ dựa theo 2 điểm đặc biệt của mỗi đường thẳng.
+  ]
+]
+
+#minhhoa[
+  Cho hai đường thẳng $d_1: y = x + 1$ và $d_2: y = -x + 3$.
+]
+
+#chc[
+  Tìm giao điểm của $d_1$ và $d_2$.
+  #loigiai[
+    Giải hệ $heva(y = x + 1, y = -x + 3)$ được $x = 1$, $y = 2$.
+  ]
+]
+#chc[
+  Vẽ hai đường thẳng trên cùng một hệ trục toạ độ.
+  #loigiai[
+    Học sinh tự vẽ dựa theo 2 điểm đặc biệt của mỗi đường thẳng.
+  ]
+]
+```
+
+*Kết quả:*
+
+#minhhoa(sochc: 2)[
+  Cho hai đường thẳng $d_1: y = x + 1$ và $d_2: y = -x + 3$.
+]
+
+#chc[
+  Tìm giao điểm của $d_1$ và $d_2$.
+  #loigiai[
+    Giải hệ hai phương trình trên, ta được $x = 1$, $y = 2$.
+  ]
+]
+#chc[
+  Vẽ hai đường thẳng trên cùng một hệ trục toạ độ.
+  #loigiai[
+    Học sinh tự vẽ dựa theo 2 điểm đặc biệt của mỗi đường thẳng.
+  ]
+]
+
+#minhhoa[
+  Cho hai đường thẳng $d_1: y = x + 1$ và $d_2: y = -x + 3$.
+]
+
+#chc[
+  Tìm giao điểm của $d_1$ và $d_2$.
+  #loigiai[
+    Giải hệ $heva(y = x + 1, y = -x + 3)$ được $x = 1$, $y = 2$.
+  ]
+]
+#chc[
+  Vẽ hai đường thẳng trên cùng một hệ trục toạ độ.
+  #loigiai[
+    Học sinh tự vẽ dựa theo 2 điểm đặc biệt của mỗi đường thẳng.
+  ]
+]
+
+#subsection[Đổi chữ "Dựa vào thông tin dưới đây..."]
+
+Câu dẫn mặc định trước nhóm câu hỏi con lấy từ 2 biến `fromchc` và `tochc`:
+
+```typ
+#fromchc.update("Dựa vào thông tin dưới đây để trả lời các câu từ")
+#tochc.update("đến")
+```
+
+Đặt lệnh này ở `main.typ` (trước phần nội dung) nếu muốn đổi sang cách diễn
+đạt khác, ví dụ rút gọn hoặc dùng cho đề thi kiểu khác.
+
 = Trắc nghiệm VÀ TỰ LUẬN
 
 == `#choice` -- trắc nghiệm 4 phương án
@@ -364,6 +505,11 @@ Ngược lại, dùng `#imminiL` để xếp hình bên trái, đề bài bên p
 - Nếu muốn thay các chữ cái A, B, C, D, thành số 1, 2, 3, 4 thì dùng `#choiceN`.
 - Nếu chỉ truyền 1 phương án, `#choice` sẽ vẽ dạng `underbracket` đánh số
   A, B, C... tăng dần theo thứ tự xuất hiện (dùng cho trắc nghiệm tìm lỗi sai của môn Anh ngữ).
+- `khoangcach: 1em`: chỉnh khoảng cách giữa các dòng phương án khi các đáp án xếp thành nhiều dòng.
+  Tham số này cũng có ở `#choiceN` và `#choiceTF`.
+- Cuối mỗi phương án (`choice`/`choiceN`/`choiceTF`) đều tự in thêm ký tự lấy
+  từ biến `dotEX` (mặc định là dấu `.`). Muốn đổi (ví dụ bỏ hẳn dấu chấm),
+  đặt ở `main.typ`: `#dotEX.update([])`.
 
 *Ví dụ minh hoạ 1:*
 
@@ -420,6 +566,9 @@ Ngược lại, dùng `#imminiL` để xếp hình bên trái, đề bài bên p
 - Mặc định sẽ không kẻ bảng, thêm tham số `kieu: "t"` để kẻ bảng.
 - Khi không có tham số `kieu: "t"` sẽ in dạng danh sách chia cột như `#choice`. Nếu muốn chỉnh số cột thì thêm tham số `socot: 2`.
 - Lệnh `#itemchoice` cũng có thể thêm tham số `socot: 2`.
+- Lệnh `#itemchoice` tự động đọc tham số `dapan` đã khai báo ở `#choiceTF` cùng câu để in đậm sẵn nhãn "a) Đúng", "b) Sai"... ở đầu mỗi ý. Vì vậy nội dung từng dòng bên trong `#itemchoice[...]` chỉ nên đưa ra các bước giải, KHÔNG cần gõ lại chữ "Đúng"/"Sai" — nếu gõ lại sẽ bị lặp
+
+#v(2em)
 
 *Ví dụ minh hoạ 1:*
 
@@ -436,10 +585,10 @@ Ngược lại, dùng `#imminiL` để xếp hình bên trái, đề bài bên p
   )
   #loigiai[
     #itemchoice[
-      + Đúng vì thoả $a != 0$.
-      + Sai vì $a = b = 0$.
-      + Đúng vì thoả $a != 0$.
-      + Đúng vì thoả $b != 0$.
+      + Vì thoả $a != 0$.
+      + Vì $a = b = 0$.
+      + Vì thoả $a != 0$.
+      + Vì thoả $b != 0$.
     ]
   ]
 ]
@@ -459,15 +608,14 @@ Ngược lại, dùng `#imminiL` để xếp hình bên trái, đề bài bên p
   )
   #loigiai[
     #itemchoice[
-      + Đúng vì thoả $a != 0$.
-      + Sai vì $a = b = 0$.
-      + Đúng vì thoả $a != 0$.
-      + Đúng vì thoả $b != 0$.
+      + Vì thoả $a != 0$.
+      + Vì $a = b = 0$.
+      + Vì thoả $a != 0$.
+      + Vì thoả $b != 0$.
     ]
   ]
 ]
 
-#pagebreak()
 *Ví dụ minh hoạ 2:*
 
 ```typ
@@ -483,10 +631,10 @@ Ngược lại, dùng `#imminiL` để xếp hình bên trái, đề bài bên p
   )
   #loigiai[
     #itemchoice(socot: 2)[
-      + Đúng vì thoả $a != 0$.
-      + Sai vì $a = b = 0$.
-      + Đúng vì thoả $a != 0$.
-      + Đúng vì thoả $b != 0$.
+      + Vì thoả $a != 0$.
+      + Vì $a = b = 0$.
+      + Vì thoả $a != 0$.
+      + Vì thoả $b != 0$.
     ]
   ]
 ]
@@ -506,10 +654,10 @@ Ngược lại, dùng `#imminiL` để xếp hình bên trái, đề bài bên p
   )
   #loigiai[
     #itemchoice(socot: 2)[
-      + Đúng vì thoả $a != 0$.
-      + Sai vì $a = b = 0$.
-      + Đúng vì thoả $a != 0$.
-      + Đúng vì thoả $b != 0$.
+      + Vì thoả $a != 0$.
+      + Vì $a = b = 0$.
+      + Vì thoả $a != 0$.
+      + Vì thoả $b != 0$.
     ]
   ]
 ]
@@ -517,9 +665,11 @@ Ngược lại, dùng `#imminiL` để xếp hình bên trái, đề bài bên p
 #section[`#shortans` -- câu trả lời ngắn]
 
 Sử dụng tham số `kieu` để thay đổi kiểu in kết quả:
-- `"..."`: hiện 1 dòng chấm ngắn.
-- `"oly"`: hiện 4 ô vuông (mặc định).
+- `"..."`: hiện 1 dòng chấm ngắn (mặc định).
+- `"oly"`: hiện 4 ô vuông.
 - `"3"` một ô chữ nhật dài 3cm.
+
+*Lưu ý:* `#shortans` cũng tự lưu đáp án vào hệ thống giống `#choice`. chỉ cần đặt bên trong cặp `#BatDauLuuDapAn` và `#KetThucLuuDapAn` là `#XuatDapAn` sẽ tự liệt kê luôn đáp án của các câu `#shortans`, không cần làm gì thêm.
 
 *Ví dụ minh hoạ:*
 
@@ -619,12 +769,18 @@ Sử dụng tham số `kieu` để thay đổi kiểu in kết quả:
 ]
 
 *Lưu ý:*
-- Lệnh này sẽ không lưu lại kết quả.
-- Dùng `#dapso_show_state.update(true)` ở `main.typ` nếu muốn hiện toàn bộ đáp số thay vì chỉnh tay từng câu.
+- Lệnh này sẽ KHÔNG lưu lại kết quả bằng `#BatDauLuuDapAn` và `#KetThucLuuDapAn`.
+- Có 2 cách bật/tắt hiển thị đáp số cho *toàn bộ* tài liệu kể từ vị trí đặt lệnh:
+  - Gọi thẳng state: `#dapso_show_state.update(true)` / `update(false)`.
+  - Hoặc dùng lệnh tắt có sẵn: `#showdapso` để hiện và `#hidedapso` (hoặc
+    `#exitdapso`) để ẩn.
+- Tham số `hien:` truyền trực tiếp trong `#dapso(...)` luôn được ưu tiên xử lý hơn cấu hình chung bằng các cách trên.
 
-#section[`ListEX` - môi trường danh sách]
+#section[`listEX` `#itemize` `#enumerate`  -- tạo danh sách]
 
-Lệnh `listEX` dùng để lập danh sách thay cho `enum`, trong đó các ý của bài tập sẽ tự động dàn cột tương tự bên LaTeX (tối đa 4 cột). Nếu muốn chỉ định số cột cụ thể thì ta thêm tham số `socot`. Cấu trúc lệnh đầy đủ như sau:
+#subsection[`listEX` -- tự động sắp xếp]
+
+Lệnh `listEX` dùng để lập danh sách thay cho `enum`, trong đó các ý của bài tập sẽ tự động dàn cột tương tự bên LaTeX (tối đa 4 cột). Nếu muốn chỉ định số cột cụ thể thì ta thêm tham số `socot`. Cú pháp lệnh đầy đủ như sau:
 
 ```typ
 #listEX(socot: <số cột>)[
@@ -653,3 +809,38 @@ Lệnh `listEX` dùng để lập danh sách thay cho `enum`, trong đó các ý
   + $0x + y = -2$;
   + $x + 0y = 3$.
 ]
+
+#subsection()[`#itemize` `#enumerate` -- thay thế cho LaTeX]
+
+Hai lệnh này chỉ là bọc lại `list`/`enum` gốc của Typst với khoảng cách trên/dưới
+và kiểu đánh số quen thuộc bên LaTeX, cú pháp bên trong dùng `-`/`+` như bình
+thường của Typst:
+
+```typ
+#itemize[
+  - Ý gạch đầu dòng thứ nhất
+  - Ý gạch đầu dòng thứ hai
+]
+```
+
+```typ
+#enumerate[
+  + Ý đánh số thứ nhất
+  + Ý đánh số thứ hai
+]
+```
+
+*Kết quả:*
+
+#itemize[
+  - Ý gạch đầu dòng thứ nhất
+  - Ý gạch đầu dòng thứ hai
+]
+
+#enumerate[
+  + Ý đánh số thứ nhất
+  + Ý đánh số thứ hai
+]
+
+*Khác biệt với `#listEX`:* hai lệnh `#itemize` và `#enumerate` không tự chia cột, chỉ đổi
+kiểu marker/đánh số và thêm khoảng cách khối. Khi cần danh sách các ý của một câu hỏi (tự chia cột theo bề rộng trang), dùng `#listEX`.
