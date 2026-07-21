@@ -190,8 +190,6 @@
   ]
 ]
 
-#pagebreak()
-
 #subsubsection()[Hệ hai phương trình bậc nhất hai ẩn]
 
 #dn(tieude: "Hệ hai phương trình bậc nhất hai ẩn")[
@@ -595,6 +593,7 @@
 
 #KetThucLuuDapAn("9D1-1-Tracnghiem")
 
+#pagebreak()
 #v(1fr)
 #align(center)[
   *BẢNG ĐÁP ÁN TRẮC NGHIỆM*
