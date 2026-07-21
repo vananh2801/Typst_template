@@ -132,8 +132,8 @@ Dựa trên cơ sở ý tưởng của ex_test, tôi đã làm gói lệnh này,
     },
     // Inset để nội dung không dính sát vào đường kẻ dọc
     inset: (x, y) => (
-      top: text.size / 2,
-      bottom: text.size / 2,
+      top: par.leading * 8 / 10,
+      bottom: par.leading * 2 / 10, // top + bottom = 1 par.leading
       left: if x == 0 { 0pt } else { 10pt },
       right: if x == socot - 1 { 0pt } else { 10pt },
     ),
@@ -142,33 +142,7 @@ Dựa trên cơ sở ý tưởng của ex_test, tôi đã làm gói lệnh này,
       (box(width: 100%, repeat([. #h(5pt)])),)
     }
   )
-  #label("dotline-marker")
 ]
-
-// Kiểm tra đệ quy: content có chứa label <dotline-marker> ở đầu không
-#let starts-with-dotline(body) = {
-  if type(body) != content {
-    false
-  } else if body.has("label") and body.label == <dotline-marker> {
-    true
-  } else if body.has("children") {
-    let real-children = body.children.filter(c => {
-      (
-        type(c) == content
-          and not (
-            repr(c.func()) == "space" or c.func() == parbreak or (c.func() == text and c.text.trim() == "")
-          )
-      )
-    })
-    if real-children.len() == 0 { false } else { starts-with-dotline(real-children.first()) }
-  } else if body.has("body") {
-    starts-with-dotline(body.body)
-  } else if body.has("child") {
-    starts-with-dotline(body.child)
-  } else {
-    false
-  }
-}
 
 // choice
 #let choice(socot: none, dapan: none, khoangcach: none, ..answers) = {
@@ -507,7 +481,7 @@ Dựa trên cơ sở ý tưởng của ex_test, tôi đã làm gói lệnh này,
 }
 
 // listEX
-#let listEX(socot: none, body, max-cols: 4) = {
+#let listEX(socot: none, body) = {
   parbreak()
   let contents_raw = extract-items(body)
   let n = contents_raw.len()
@@ -527,7 +501,7 @@ Dựa trên cơ sở ý tưởng của ex_test, tôi đã làm gói lệnh này,
     let widths = contents.map(c => measure(c).width)
     let maxw = calc.max(..widths)
     let safety = 1.08
-    let cols = calc.min(n, max-cols)
+    let cols = calc.min(n, 4)
     while cols > 1 {
       let colw = (size.width - (cols - 1) * gutter) / cols
       if maxw * safety <= colw {
@@ -735,35 +709,22 @@ Dựa trên cơ sở ý tưởng của ex_test, tôi đã làm gói lệnh này,
 // loigiai: tự quyết định hiển thị ngay hay "gửi ra ngoài"
 #let loigiai(content) = context {
   parbreak()
+  let name = current_theorem_name.get()
+  let show_ans = state(name + "_show_ans").get()
+  let show_ans_dotline = state(name + "_show_ans_dotline").get()
+  let colnum = state(name + "_show_ans_dotline_colnum").get()
   if in_theorem_state.get() or in_chc_state.get() {
-    if (
-      state(current_theorem_name.get() + "_show_ans").get() != none
-        and state(current_theorem_name.get() + "_show_ans").get()
-    ) {
+    if show_ans != none and show_ans {
       loigiai_state.update(content)
     }
   } else {
     align(center)[#loigiaiEX.get()]
-    if starts-with-dotline(content) {
-      content
-    } else if (
-      state(current_theorem_name.get() + "_show_ans_dotline").get() != none
-        and state(current_theorem_name.get() + "_show_ans_dotline").get()
-    ) {
+    if show_ans_dotline != none and show_ans_dotline {
       layout(size => {
         let content_size = measure(content, width: size.width)
-        let single_line = measure(block(width: size.width)[A]).height
-        let two_lines = measure(block(width: size.width)[A \ B]).height
-        let line_height = two_lines - single_line
-        let n = calc.ceil(content_size.height / line_height)
-        if (state(current_theorem_name.get() + "_show_ans_dotline_colnum").get() != none) {
-          dotlineEX(
-            calc.max(n, 1),
-            socot: state(current_theorem_name.get() + "_show_ans_dotline_colnum").get(),
-          )
-        } else {
-          dotlineEX(calc.max(n, 1))
-        }
+        let socot_final = if colnum != none { colnum } else { 1 }
+        let n = calc.max(calc.ceil(content_size.height / par.leading.to-absolute() / 2), 1)
+        dotlineEX(n, socot: socot_final)
       })
     } else {
       content
