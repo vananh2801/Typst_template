@@ -1,5 +1,8 @@
 #import "../style/ex_test.typ": *
 
+#let current_chapter_title = state("current_chapter_title", none)
+#let current_section_title = state("current_section_title", none)
+
 #let appearance(body) = {
   // Cấu hình trang in
   set page(
@@ -8,16 +11,12 @@
     numbering: "1",
     footer: context {
       let page_num = counter(page).get().first()
-      let headings = query(heading.where(level: if calc.even(page_num) { 1 } else { 2 }).before(here())).filter(it => (
-        it.numbering != none
-      ))
-      let current = if headings.len() > 0 { [#headings.last().body] } else { [] }
+      let section = current_section_title.get()
+      let chapter = current_chapter_title.get()
+      let current = if section == none or calc.odd(page_num) { chapter } else { section }
       [
         #show linebreak: [ ]
-        #line(
-          stroke: 1pt + red.darken(30%),
-          length: 100%,
-        )
+        #line(stroke: 1pt + red.darken(30%), length: 100%)
         #v(-8pt)
         _#current #h(1fr) Trang #(page_num)_
       ]
@@ -110,6 +109,8 @@
     counter("bt_count").update(0)
     counter("btrl_count").update(0)
     counter("ex_count").update(0)
+    current_chapter_title.update(it.body)
+    current_section_title.update(none)
   }
 
   // section - Bài dạy
@@ -145,6 +146,7 @@
     counter("bt_count").update(0)
     counter("btrl_count").update(0)
     counter("ex_count").update(0)
+    current_section_title.update(it.body)
   }
 
   // subsection - Mục đánh chữ cái in hoa
