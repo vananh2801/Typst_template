@@ -342,7 +342,7 @@
 }
 
 #let questionImminiF(fulllabel: none, shortlabel: none, label: none, title: none, count: none) = [
-  #strong[#fulllabel]
+  #strong[#shortlabel]
 ]
 
 #let questionContentF(body, fulllabel: none, shortlabel: none, label: none, title: none, count: none) = [
