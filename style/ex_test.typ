@@ -578,16 +578,6 @@ Dựa trên cơ sở ý tưởng của ex_test, tôi đã làm gói lệnh này,
 #let immini(text_content, image_content) = {
   let cell1 = context {
     let titleStyle = current_theorem_imminiF.get().f
-    let fulllabel = if in_chc_state.get() {
-      current_chc_full_label.get()
-    } else {
-      current_theorem_full_label.get()
-    }
-    let shortlabel = if in_chc_state.get() {
-      current_chc_short_label.get()
-    } else {
-      current_theorem_short_label.get()
-    }
     let label = if in_chc_state.get() {
       current_chc_label.get()
     } else {
@@ -603,6 +593,8 @@ Dựa trên cơ sở ý tưởng của ex_test, tôi đã làm gói lệnh này,
     } else {
       current_theorem_title.get()
     }
+    let fulllabel = label + " " + str(count) + if title != none { " (" + title + ")" } + "."
+    let shortlabel = label + " " + str(count) + "."
     let prefix = if type(titleStyle) == function {
       titleStyle(
         fulllabel: fulllabel,
@@ -632,16 +624,6 @@ Dựa trên cơ sở ý tưởng của ex_test, tôi đã làm gói lệnh này,
 #let imminiL(text_content, image_content) = {
   let cell2 = context {
     let titleStyle = current_theorem_imminiF.get().f
-    let fulllabel = if in_chc_state.get() {
-      current_chc_full_label.get()
-    } else {
-      current_theorem_full_label.get()
-    }
-    let shortlabel = if in_chc_state.get() {
-      current_chc_short_label.get()
-    } else {
-      current_theorem_short_label.get()
-    }
     let label = if in_chc_state.get() {
       current_chc_label.get()
     } else {
@@ -657,6 +639,8 @@ Dựa trên cơ sở ý tưởng của ex_test, tôi đã làm gói lệnh này,
     } else {
       current_theorem_title.get()
     }
+    let fulllabel = label + " " + str(count) + if title != none { " (" + title + ")" } + "."
+    let shortlabel = label + " " + str(count) + "."
     let prefix = if type(titleStyle) == function {
       titleStyle(
         fulllabel: fulllabel,
