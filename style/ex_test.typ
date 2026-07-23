@@ -449,27 +449,27 @@ Dựa trên cơ sở ý tưởng của ex_test, tôi đã làm gói lệnh này,
 }
 
 // Môi trường itemize
-#let itemize(content) = {
+#let itemize(body) = {
   parbreak()
   set list(marker: ([--], [+]), indent: 1em)
   block(above: 1em, below: 1em)[
-    #content
+    #body
   ]
   parbreak()
 }
 
 // Môi trường enumerate
-#let enumerate(content) = {
+#let enumerate(body) = {
   parbreak()
   set enum(numbering: "a1.", indent: 1em)
   block(above: 1em, below: 1em)[
-    #content
+    #body
   ]
   parbreak()
 }
 
 // Lệnh bổ sung cho listEX, itemchoice
-// Duyệt đệ quy để lấy nội dung từng mục "+ ..." trong content
+// Duyệt đệ quy để lấy nội dung từng mục "+ ..." trong body
 #let extract-items(body) = {
   if body.func() == enum.item {
     (body.body,)
@@ -691,7 +691,7 @@ Dựa trên cơ sở ý tưởng của ex_test, tôi đã làm gói lệnh này,
 }
 
 // loigiai: tự quyết định hiển thị ngay hay "gửi ra ngoài"
-#let loigiai(content) = context {
+#let loigiai(body) = context {
   parbreak()
   let name = current_theorem_name.get()
   let show_ans = state(name + "_show_ans").get()
@@ -699,19 +699,19 @@ Dựa trên cơ sở ý tưởng của ex_test, tôi đã làm gói lệnh này,
   let colnum = state(name + "_show_ans_dotline_colnum").get()
   if in_theorem_state.get() or in_chc_state.get() {
     if show_ans != none and show_ans {
-      loigiai_state.update(content)
+      loigiai_state.update(body)
     }
   } else {
     align(center)[#loigiaiEX.get()]
     if show_ans_dotline != none and show_ans_dotline {
       layout(size => {
-        let content_size = measure(content, width: size.width)
+        let body_size = measure(body, width: size.width)
         let socot_final = if colnum != none { colnum } else { 1 }
-        let n = calc.max(calc.ceil(content_size.height / par.leading.to-absolute() / 2), 1)
+        let n = calc.max(calc.ceil(body_size.height / par.leading.to-absolute() / 2), 1)
         dotlineEX(n, socot: socot_final)
       })
     } else {
-      content
+      body
     }
   }
   parbreak()
@@ -781,6 +781,7 @@ Dựa trên cơ sở ý tưởng của ex_test, tôi đã làm gói lệnh này,
       ]
     }
   }
+  immini_at_start_state.update(false)
   in_chc_state.update(false)
   context {
     if loigiai_state.get() != none {
@@ -871,6 +872,7 @@ Dựa trên cơ sở ý tưởng của ex_test, tôi đã làm gói lệnh này,
       ]
     }
     in_theorem_state.update(false)
+    immini_at_start_state.update(false)
     context {
       if loigiai_state.get() != none {
         loigiai[#loigiai_state.get()]
